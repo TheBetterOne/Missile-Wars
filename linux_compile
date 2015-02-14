@@ -1,0 +1,1 @@
+javac -d out src/controller/Battle.java src/controller/Field.java src/controller/Player.java src/controller/Submission.java src/controller/Tournament.java src/controller/OneAtATime.java src/controller/Sleeper.java src/controller/AnimatedGifEncoder.java
