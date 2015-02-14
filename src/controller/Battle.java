@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,29 +18,30 @@ public class Battle {
     private int id;
     private Field field;
 
-    private AnimatedGifEncoder encoder;
-
     public Battle(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
         this.id = idGenerator;
         idGenerator++;
         field = new Field(BOARD_WIDTH, BOARD_HEIGHT);
-        encoder = new AnimatedGifEncoder();
-        encoder.start("battle" + id + ".gif");
-        encoder.setDelay(500);//TODO
+        new File("battles\\" + id).mkdirs();
     }
 
     public Player run() {
-        System.out.println(field);
         Player currentPlayer = player2;
         field.flip();
+        int round = 0;
         while (!field.isFinished()) {
             currentPlayer = currentPlayer == player1 ? player2 : player1;
             field.flip();
             doTurn(currentPlayer, field);
             if (currentPlayer == player1) {
-                System.out.println(field);
+                round++;
+                try {
+                    new PrintStream("battles\\" + id + "\\" + round + ".txt").print(field);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         }
         if (field.hasWon()) {
@@ -85,10 +89,6 @@ public class Battle {
                 }
             }
         }
-    }
-
-    public void close() {
-        encoder.finish();
     }
 
 }

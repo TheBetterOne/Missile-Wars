@@ -19,7 +19,6 @@ public class Tournament {
                 for (int k = 0; k < ROUNDS; k++) {
                     Battle battle = Math.random() > .5 ? new Battle(players[i], players[j]) : new Battle(players[j], players[i]);
                     Player winner = battle.run();
-                    battle.close();
                     Player loser = winner == players[i] ? players[j] : players[i];
                     winner.restart();
                     loser.restart();
